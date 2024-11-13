@@ -144,12 +144,12 @@ const DestinationsPage = () => {
         <Row>
           {isAdmin ? (
             <Col md={12}>
-              <h2>
-                {!isSearching &&
+             {!isSearching && ( <h2>
+                {
                   (showApproved
                     ? "Destinazioni Approvate"
                     : "Destinazioni Non Approvate")}
-              </h2>
+              </h2>)}
               <Row>
                 {(showApproved
                   ? approvedDestinations
