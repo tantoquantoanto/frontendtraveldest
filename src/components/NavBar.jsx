@@ -39,12 +39,14 @@ const NavBar = ({ setShowApproved, onSearch, showApproved }) => {
               <LucideHome size={20} className="me-1" /> Home
             </Nav.Link>
 
-            {!isAdmin && (
+            {session && !isAdmin && (
              <NavDropdown title={<span><LucidePlane size={20} className="me-1" /> Destinazioni</span>} id="destinations-dropdown">
               <NavDropdown.Item as={Link} to="/destinations">Destinazioni</NavDropdown.Item>
              <NavDropdown.Item as={Link} to="/create-new-destination"> Crea una nuova destinazione</NavDropdown.Item>              
            </NavDropdown>
             )}
+
+
             
             {isAdmin && (
               <NavDropdown title={<span><LucidePlane size={20} className="me-1" /> Destinazioni</span>} id="destinations-dropdown">
