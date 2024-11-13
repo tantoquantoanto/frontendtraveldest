@@ -15,6 +15,14 @@ const NavBar = ({ setShowApproved, onSearch, showApproved }) => {
     window.location.href = "/";
   };
 
+  const handleHomeClick = () => {
+    if (session) {
+      navigate("/destinations");
+    } else {
+      navigate("/"); 
+    }
+  };
+
   const isAdmin = role ? role === "admin" : false;
 
   return (
@@ -26,12 +34,13 @@ const NavBar = ({ setShowApproved, onSearch, showApproved }) => {
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav">
           <Nav className="ms-auto d-flex align-items-center justify-content-center">
-            <Nav.Link as={Link} to="/" className="text-dark">
+            <Nav.Link onClick={handleHomeClick} className="text-dark">
               <LucideHome size={20} className="me-1" /> Home
             </Nav.Link>
 
             {!isAdmin && (
              <NavDropdown title={<span><LucidePlane size={20} className="me-1" /> Destinazioni</span>} id="destinations-dropdown">
+              <NavDropdown.Item as={Link} to="/destinations">Destinazioni</NavDropdown.Item>
              <NavDropdown.Item as={Link} to="/create-new-destination"> Crea una nuova destinazione</NavDropdown.Item>              
            </NavDropdown>
             )}
