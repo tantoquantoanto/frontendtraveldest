@@ -35,11 +35,13 @@ const DestinationsPage = () => {
   const totalPages = showApproved ? totalApprovedPages : totalNotApprovedPages;
   const setPage = showApproved ? setApprovedPage : setNotApprovedPage;
   const token = localStorage.getItem("Authorization");
-
+  const [isSearching, setIsSearching] = useState(false);
   const fetchLikedDestinations = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/users/${session.userId}/liked-destinations`,
+        `${import.meta.env.VITE_SERVER_BASE_URL}/users/${
+          session.userId
+        }/liked-destinations`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -60,7 +62,9 @@ const DestinationsPage = () => {
   const postLikedDestinations = async (destinationId) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/users/${session.userId}/like/${destinationId}`,
+        `${import.meta.env.VITE_SERVER_BASE_URL}/users/${
+          session.userId
+        }/like/${destinationId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -79,7 +83,9 @@ const DestinationsPage = () => {
   const deleteLikedDestinations = async (destinationId) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/users/${session.userId}/like/${destinationId}`,
+        `${import.meta.env.VITE_SERVER_BASE_URL}/users/${
+          session.userId
+        }/like/${destinationId}`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -106,6 +112,7 @@ const DestinationsPage = () => {
   };
 
   const handleSearch = (name) => {
+    setIsSearching(true);
     const reset = showApproved
       ? resetApprovedDestinations
       : resetNotApprovedDestinations;
@@ -138,12 +145,16 @@ const DestinationsPage = () => {
           {isAdmin ? (
             <Col md={12}>
               <h2>
-                {showApproved
-                  ? "Destinazioni Approvate"
-                  : "Destinazioni Non Approvate"}
+                {!isSearching &&
+                  (showApproved
+                    ? "Destinazioni Approvate"
+                    : "Destinazioni Non Approvate")}
               </h2>
               <Row>
-                {(showApproved ? approvedDestinations : notApprovedDestinations).map((destination) => (
+                {(showApproved
+                  ? approvedDestinations
+                  : notApprovedDestinations
+                ).map((destination) => (
                   <Col xs={12} md={4} key={destination._id} className="mb-3">
                     <DestinationCard
                       img={destination.img}
