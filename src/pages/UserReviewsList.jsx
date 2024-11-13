@@ -47,7 +47,7 @@ const UserReviewsList = () => {
     if (userId && token) {
       getMyReviews();
     }
-  }, [userId, token, myReviews]);
+  }, [userId, token]);
 
   const onDelete = async (reviewId) => {
     try {
