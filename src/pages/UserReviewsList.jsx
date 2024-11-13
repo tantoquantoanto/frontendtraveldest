@@ -9,12 +9,14 @@ const UserReviewsList = () => {
   const [myReviews, setMyReviews] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedReview, setSelectedReview] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); 
   const session = useSession();
   const token = localStorage.getItem("Authorization");
   const userId = session ? session.userId : null;
 
   const getMyReviews = async () => {
     try {
+      setIsLoading(true); 
       const response = await fetch(
         `${import.meta.env.VITE_SERVER_BASE_URL}/reviews`,
         {
@@ -40,11 +42,13 @@ const UserReviewsList = () => {
       }
     } catch (error) {
       console.error("Errore nel recupero delle recensioni:", error);
+    } finally {
+      setIsLoading(false); 
     }
   };
 
   useEffect(() => {
-    if (userId && token) {
+    if (userId && token && !isLoading) { 
       getMyReviews();
     }
   }, [userId, token]);
