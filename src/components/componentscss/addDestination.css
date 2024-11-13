@@ -1,0 +1,28 @@
+.image-header {
+    position: relative;
+    margin-bottom: 1.5rem; 
+  }
+  
+  .image-header img {
+    max-height: 400px; 
+    object-fit: cover; 
+    
+  }
+  
+  .image-header h1 {
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    color: black; 
+    text-align: center; 
+  }
+  
+  .image-header p {
+    position: absolute;
+    top: 60%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black; 
+  }
+  
