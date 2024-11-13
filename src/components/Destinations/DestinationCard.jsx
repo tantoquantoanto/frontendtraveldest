@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Heart } from "lucide-react"; 
-import "../componentscss/DestinationCard.css"
+import "../componentscss/destinationCard.css"
 import useSession from "../../../hooks/useSession";
 
 const DestinationCard = ({ img, name, location, category, id,isLiked, onLikeToggle }) => {
