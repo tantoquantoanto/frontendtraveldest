@@ -1,6 +1,6 @@
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import { LucidePlane, LucideHome, LucideUser, LucideFacebook, LucideTwitter, LucideInstagram } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DestinationsSearchInput from "./Destinations/DestinationsSearchInput";
 import useSession from "../../hooks/useSession";
 
@@ -8,20 +8,11 @@ const NavBar = ({ setShowApproved, onSearch, showApproved }) => {
   const session = useSession();  
   const userId = session ? session.userId : null;
   const role = session ? session.role : null;
-  const location = useLocation();
-  const navigate = useNavigate();
+  const location = useLocation()
 
   const handleLogOut = () => {
     localStorage.removeItem("Authorization");
     window.location.href = "/";
-  };
-
-  const handleHomeClick = () => {
-    if (session) {
-      navigate("/destinations");
-    } else {
-      navigate("/"); 
-    }
   };
 
   const isAdmin = role ? role === "admin" : false;
@@ -35,18 +26,20 @@ const NavBar = ({ setShowApproved, onSearch, showApproved }) => {
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav">
           <Nav className="ms-auto d-flex align-items-center justify-content-center">
-            <Nav.Link onClick={handleHomeClick} className="text-dark">
+          <Nav.Link 
+              as={Link} 
+              to={session ? "/destinations" : "/"} 
+              className="text-dark"
+            >
               <LucideHome size={20} className="me-1" /> Home
             </Nav.Link>
 
-            {session && !isAdmin && (
+            {!isAdmin && (
              <NavDropdown title={<span><LucidePlane size={20} className="me-1" /> Destinazioni</span>} id="destinations-dropdown">
-              <NavDropdown.Item as={Link} to="/destinations">Destinazioni</NavDropdown.Item>
+               <NavDropdown.Item as={Link} to="/destinations" >Destinazioni</NavDropdown.Item>
              <NavDropdown.Item as={Link} to="/create-new-destination"> Crea una nuova destinazione</NavDropdown.Item>              
            </NavDropdown>
             )}
-
-
             
             {isAdmin && (
               <NavDropdown title={<span><LucidePlane size={20} className="me-1" /> Destinazioni</span>} id="destinations-dropdown">

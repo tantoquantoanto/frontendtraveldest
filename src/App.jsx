@@ -37,7 +37,7 @@ function App() {
                 element={<NewDestinationsForm />}
               />
               <Route path="/destinations" element={<DestinationsPage />} />
-              <Route path="/users/:userId" element={<UserDetails />} />
+              <Route path="/users/:userId" element={<UserDetails/>} />
               <Route
                 path="/destinations/:destinationId"
                 element={<DestinationDetails />}
