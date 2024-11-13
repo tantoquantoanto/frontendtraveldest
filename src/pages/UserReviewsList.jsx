@@ -44,10 +44,10 @@ const UserReviewsList = () => {
   };
 
   useEffect(() => {
-    if (userId) {
+    if (userId && token) {
       getMyReviews();
     }
-  }, [userId]);
+  }, [userId, token]);
 
   const onDelete = async (reviewId) => {
     try {
