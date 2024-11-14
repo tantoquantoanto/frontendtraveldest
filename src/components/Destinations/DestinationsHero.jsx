@@ -64,7 +64,7 @@ const DestinationsHero = () => {
                                 <Button
                                     variant="primary"
                                     href={`/destinations/${randomDestination._id}`}
-                                    className="hero-button"
+                                    className="d-xs-none d-md-flex"
                                 >
                                     Scopri di più
                                 </Button>
