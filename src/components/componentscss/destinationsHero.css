@@ -68,8 +68,7 @@
     }
 
     .hero-button {
-        font-size: 0.9rem;
-        padding: 2px;
+        display: none; 
     }
 
     .lead {
