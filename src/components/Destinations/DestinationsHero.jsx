@@ -57,7 +57,7 @@ const DestinationsHero = () => {
                             style={{ backgroundImage: `url(${randomDestination.img})` }}
                         >
                             <div className="card-img-overlay d-flex flex-column justify-content-center text-overlay">
-                                <Card.Title className="display-3">{randomDestination.name}</Card.Title>
+                                <Card.Title className="display-3 hero-title">{randomDestination.name}</Card.Title>
                                 <Card.Text className="lead">
                                     {randomDestination.description}
                                 </Card.Text>
