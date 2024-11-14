@@ -11,12 +11,6 @@
     overflow: hidden;
 }
 
-
-.hero-title {
-    font-size: 4rem;
-}
-
-
 .hero-img-container {
     height: 100%;
     width: 100%;
@@ -39,7 +33,6 @@
     animation: slideInText 1s ease-out forwards;
 }
 
-
 @keyframes slideInHero {
     0% {
         transform: translateX(-100%); 
@@ -48,7 +41,6 @@
         transform: translateX(0); 
     }
 }
-
 
 @keyframes slideInText {
     0% {
@@ -70,12 +62,12 @@
     }
 
     .hero-title {
-        font-size: 1rem;
+        font-size: 1.5rem; 
     }
 
     .hero-button {
-        font-size: 0.8rem;
-        padding: 2px;
+        font-size: 0.8rem; 
+        padding: 6px 12px; 
     }
 
     .lead {
