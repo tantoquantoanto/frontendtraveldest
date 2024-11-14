@@ -16,13 +16,13 @@ const Footer = () => {
             <h3 className="display-5 mb-4 text-primary">TravelDest</h3>
             <ul className="list-unstyled d-flex gap-3 justify-content-center mb-4">
               <li>
-                <Link to="/about-us" className="text-dark text-decoration-none">Chi Siamo</Link>
+                <Link to="/chisiamo" className="text-dark text-decoration-none">Chi Siamo</Link>
               </li>
               <li>
-                <Link to="/contact" className="text-dark text-decoration-none">Contatti</Link>
+                <Link to="/contatti" className="text-dark text-decoration-none">Contatti</Link>
               </li>
               <li>
-                <Link to="/privacy-policy" className="text-dark text-decoration-none">Privacy Policy</Link>
+                <Link to="/privacy" className="text-dark text-decoration-none">Privacy Policy</Link>
               </li>
               <li>
                 <Link to="/destinations" className="text-dark text-decoration-none">Destinazioni</Link>
