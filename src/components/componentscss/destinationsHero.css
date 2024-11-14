@@ -11,9 +11,11 @@
     overflow: hidden;
 }
 
+
 .hero-title {
     font-size: 4rem;
 }
+
 
 .hero-img-container {
     height: 100%;
@@ -71,6 +73,10 @@
         font-size: 1rem;
     }
 
+    .hero-button {
+        font-size: 0.8rem;
+        padding: 2px;
+    }
 
     .lead {
         display: none;
