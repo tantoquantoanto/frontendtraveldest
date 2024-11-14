@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import useSession from "./useSession";
 
+
+
 export const useApprovedDestinations = () => {
     const [approvedDestinations, setApprovedDestinations] = useState([]);
     const [approvedPage, setApprovedPage] = useState(1);
@@ -8,12 +10,8 @@ export const useApprovedDestinations = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [totalApprovedPages, setTotalApprovedPages] = useState(1);
-    
 
-    const token = localStorage.getItem("Authorization");
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
-    const getApprovedDestinationsFromApi = async () => {
+    const getApprovedDestinationsFromApi = async (headers) => {
         setLoading(true);
         setError(null); 
         try {
@@ -28,7 +26,7 @@ export const useApprovedDestinations = () => {
 
             const data = await response.json();
             setApprovedDestinations(data.destinations);
-            setTotalApprovedPages(data.totalPages)
+            setTotalApprovedPages(data.totalPages);
         } catch (error) {
             setError(error.message || "Failed to fetch destinations");
         } finally {
@@ -36,15 +34,10 @@ export const useApprovedDestinations = () => {
         }
     };
 
-    
-    useEffect(() => {
-        getApprovedDestinationsFromApi();
-    }, [approvedPage, approvedPageSize, token]);
-
-
-    const resetApprovedDestinations = () => setApprovedDestinations([]);
-
     const searchApprovedDestinationsByName = async (name) => {
+        setApprovedPage(1); 
+        const token = localStorage.getItem("Authorization");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
         try {
             const response = await fetch(
                 `${import.meta.env.VITE_SERVER_BASE_URL}/destinations/name/${name}?page=${approvedPage}&pageSize=${approvedPageSize}`,
@@ -61,17 +54,25 @@ export const useApprovedDestinations = () => {
                 setApprovedDestinations(data.destinations);
                 setTotalApprovedPages(data.totalPages);
             } else {
-                setApprovedDestinations([]); 
-                setTotalApprovedPages(1);    
+                setApprovedDestinations([]);
+                setTotalApprovedPages(1);
                 console.log("No destinations found with the given name");
             }
         } catch (error) {
             console.error("Failed to fetch destinations:", error.message || error);
         }
     };
-    
 
-    
+    const resetApprovedDestinations = () => {
+        setApprovedDestinations([]);
+    };
+
+    useEffect(() => {
+        const token = localStorage.getItem("Authorization");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        getApprovedDestinationsFromApi(headers);
+    }, [approvedPage, approvedPageSize]);
+
     return {
         approvedDestinations,
         setApprovedDestinations,
@@ -83,6 +84,8 @@ export const useApprovedDestinations = () => {
         error,
         totalApprovedPages,
         searchApprovedDestinationsByName,
-        resetApprovedDestinations
+        resetApprovedDestinations,
+        getApprovedDestinationsFromApi
     };
 };
+

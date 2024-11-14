@@ -17,6 +17,7 @@ const DestinationsPage = () => {
     totalApprovedPages,
     searchApprovedDestinationsByName,
     resetApprovedDestinations,
+    getApprovedDestinationsFromApi
   } = useApprovedDestinations();
   const {
     notApprovedDestinations,
@@ -29,7 +30,8 @@ const DestinationsPage = () => {
   } = useNotApprovedDestinations();
   const session = useSession();
   const isAdmin = session.role === "admin";
-  const [showApproved, setShowApproved] = useState(true);
+  const [showApproved, setShowApproved] = useState(
+    localStorage.getItem("showApproved") === "false" ? false : true );
   const [likedDestinations, setLikedDestinations] = useState([]);
   const currentPage = showApproved ? approvedPage : notApprovedPage;
   const totalPages = showApproved ? totalApprovedPages : totalNotApprovedPages;
@@ -112,17 +114,36 @@ const DestinationsPage = () => {
   };
 
   const handleSearch = (name) => {
-    setIsSearching(true);
-    const reset = showApproved
-      ? resetApprovedDestinations
-      : resetNotApprovedDestinations;
-    const search = showApproved
-      ? searchApprovedDestinationsByName
-      : searchNotApprovedDestinationsByName;
-
-    reset();
-    search(name);
+   
+    if (name === "") {
+      setIsSearching(false); 
+      const reset = showApproved
+        ? resetApprovedDestinations
+        : resetNotApprovedDestinations;
+  
+      
+      reset(); 
+  
+    
+      const loadDestinations = showApproved
+        ? getApprovedDestinationsFromApi
+        : getNotApprovedDestinationsFromApi;
+      
+      loadDestinations(); 
+    } else {
+      setIsSearching(true); 
+      const reset = showApproved
+        ? resetApprovedDestinations
+        : resetNotApprovedDestinations;
+      const search = showApproved
+        ? searchApprovedDestinationsByName
+        : searchNotApprovedDestinationsByName;
+  
+      reset(); 
+      search(name); 
+    }
   };
+  
 
   useEffect(() => {
     if (session.userId) {
@@ -131,6 +152,7 @@ const DestinationsPage = () => {
   }, [session.userId]);
 
   useEffect(() => {
+    localStorage.setItem("showApproved", showApproved)
     if (!showApproved && isAdmin) {
       getNotApprovedDestinationsFromApi();
     }

@@ -4,6 +4,7 @@ import EditReviewModal from "../components/Reviews/EditReviewModal";
 import useSession from "../../hooks/useSession";
 import Swal from "sweetalert2";
 import { Container, Row, Alert } from "react-bootstrap";
+import RotateLoaderComponent from "../components/Loaders/RotateLoaderComponent";
 
 const UserReviewsList = () => {
   const [myReviews, setMyReviews] = useState([]);
@@ -121,31 +122,37 @@ const UserReviewsList = () => {
   };
 
   return (
-    <Container>
-      <h2 className="my-4">Le tue recensioni</h2>
-      {myReviews.length > 0 ? (
-        <Row>
-          {myReviews.map((review) => (
-            <ReviewCard
-              key={review._id}
-              review={review}
-              onEditReview={handleEditReview}
-              onDeleteReview={onDelete}
-            />
-          ))}
-        </Row>
+    <>
+      {isLoading ? (
+        <RotateLoaderComponent />
       ) : (
-        <Alert variant="info">Non hai ancora recensioni.</Alert>
+        <Container>
+          <h2 className="my-4">Le tue recensioni</h2>
+          {myReviews.length > 0 ? (
+            <Row>
+              {myReviews.map((review) => (
+                <ReviewCard
+                  key={review._id}
+                  review={review}
+                  onEditReview={handleEditReview}
+                  onDeleteReview={onDelete}
+                />
+              ))}
+            </Row>
+          ) : (
+            <Alert variant="info">Non hai ancora recensioni.</Alert>
+          )}
+          <EditReviewModal
+            show={showModal}
+            onHide={handleCloseModal}
+            review={selectedReview}
+            onUpdate={onUpdate}
+          />
+        </Container>
       )}
-
-      <EditReviewModal
-        show={showModal}
-        onHide={handleCloseModal}
-        review={selectedReview}
-        onUpdate={onUpdate}
-      />
-    </Container>
+    </>
   );
-};
+  
+}
 
 export default UserReviewsList;

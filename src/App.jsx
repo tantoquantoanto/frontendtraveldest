@@ -17,6 +17,7 @@ import UserReviewsList from "./pages/UserReviewsList";
 import LikedDestinationsPage from "./pages/LikedDestinationsPage";
 import ChiSiamo from "./pages/ChiSiamo";
 import NotFoundPage from "./pages/NotFoundPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 
 
@@ -31,6 +32,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/contatti" element={<Contatti />} />
             <Route path="/chisiamo" element = {<ChiSiamo/>}/>
+            <Route path="/privacy" element = {<PrivacyPolicy/>}/>
             <Route path="*" element={<NotFoundPage/>}/>
             <Route path="/create-new-users" element={<NewUsersForm />} />
             <Route path="/success/:token" element = {<SuccessLoginPage/>} />

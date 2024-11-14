@@ -34,7 +34,7 @@ const NavBar = ({ setShowApproved, onSearch, showApproved }) => {
               <LucideHome size={20} className="me-1" /> Home
             </Nav.Link>
 
-            {!isAdmin && (
+            {session && !isAdmin && (
              <NavDropdown title={<span><LucidePlane size={20} className="me-1" /> Destinazioni</span>} id="destinations-dropdown">
                <NavDropdown.Item as={Link} to="/destinations" >Destinazioni</NavDropdown.Item>
              <NavDropdown.Item as={Link} to="/create-new-destination"> Crea una nuova destinazione</NavDropdown.Item>              
@@ -52,9 +52,10 @@ const NavBar = ({ setShowApproved, onSearch, showApproved }) => {
             {!session && (
               
               <NavDropdown title={<span><MenuIcon size={20} className="me-1" /> Menu </span>} id="menu-dropdown">
-              <NavDropdown.Item as={Link} to="/login" > Login </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/chisiamo" >Chi siamo</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/contatti"> Contatti</NavDropdown.Item>              
+              <NavDropdown.Item as={Link} to="/login" >Login</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/chisiamo">Chi siamo</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/contatti">Contatti</NavDropdown.Item> 
+              <NavDropdown.Item as={Link} to="/privacy">Privacy Policy</NavDropdown.Item>                
             </NavDropdown>
             )}
 
