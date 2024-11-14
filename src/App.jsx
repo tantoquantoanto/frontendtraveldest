@@ -15,6 +15,8 @@ import OpenDestinationsPage from "./pages/OpenDestinationsPage";
 import SuccessLoginPage from "./pages/SuccessLoginPage";
 import UserReviewsList from "./pages/UserReviewsList";
 import LikedDestinationsPage from "./pages/LikedDestinationsPage";
+import ChiSiamo from "./pages/ChiSiamo";
+import NotFoundPage from "./pages/NotFoundPage";
 
 
 
@@ -28,6 +30,8 @@ function App() {
             <Route path="/" exact element={<OpenDestinationsPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/contatti" element={<Contatti />} />
+            <Route path="/chisiamo" element = {<ChiSiamo/>}/>
+            <Route path="*" element={<NotFoundPage/>}/>
             <Route path="/create-new-users" element={<NewUsersForm />} />
             <Route path="/success/:token" element = {<SuccessLoginPage/>} />
 

@@ -30,8 +30,7 @@ const DestinationDetails = () => {
     setLoading,
     setError,
   } = useSingleDestination();
-  const {approvedDestinations, setApprovedDestinations} = useApprovedDestinations();
-  const {notApprovedDestinations, setNotApprovedDestinations} = useNotApprovedDestinations()
+  const { approvedDestinations } = useApprovedDestinations();
   const { destinationId } = useParams();
   const [showModal, setShowModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -103,10 +102,6 @@ const DestinationDetails = () => {
           "Destinazione approvata con successo.",
           "success"
         );
-        setApprovedDestinations((prev) => [...prev, data.updatedDestination]);
-        setNotApprovedDestinations((prev) =>
-          prev.filter((dest) => dest._id !== destinationId)
-        );
       } else {
         Swal.fire(
           "Successo!",
@@ -114,13 +109,6 @@ const DestinationDetails = () => {
           "success"
         );
         deleteDestination();
-        setNotApprovedDestinations((prev) => [
-          ...prev,
-          data.updatedDestination,
-        ]);
-        setApprovedDestinations((prev) =>
-          prev.filter((dest) => dest._id !== destinationId)
-        );
       }
     } catch (error) {
       console.error(error);
@@ -142,7 +130,6 @@ const DestinationDetails = () => {
 
   useEffect(() => {
     getSingleDestination(destinationId);
-    console.log(isAdmin);
   }, [destinationId]);
 
   if (loading) {
@@ -152,6 +139,13 @@ const DestinationDetails = () => {
   if (!singleDestination) {
     return <p>Destinazione non trovata.</p>;
   }
+
+  // Destinazioni correlate filtrate in base alla categoria
+  const correlatedDestinations = approvedDestinations.filter(
+    (dest) =>
+      dest.category === singleDestination.category &&
+      dest._id !== singleDestination._id
+  );
 
   return (
     <>
@@ -199,20 +193,19 @@ const DestinationDetails = () => {
 
                 {isAdmin && !singleDestination.approved && (
                   <div className=" d-flex flex-column align-items-center justify-content-center">
-                  <div className="d-flex align-items-center justify-content-center gap-2 mt-3">
-                    <Button
-                      onClick={() => updateDestinationApproval(true)}
-                      variant="success"
-                    >
-                      Approve Destination
-                    </Button>
-                    <Button
-                      onClick={() => updateDestinationApproval(false)}
-                      className=""
-                      variant="danger"
-                    >
-                      Discard Destination
-                    </Button>
+                    <div className="d-flex align-items-center justify-content-center gap-2 mt-3">
+                      <Button
+                        onClick={() => updateDestinationApproval(true)}
+                        variant="success"
+                      >
+                        Approve Destination
+                      </Button>
+                      <Button
+                        onClick={() => updateDestinationApproval(false)}
+                        variant="danger"
+                      >
+                        Discard Destination
+                      </Button>
                     </div>
                     <Button
                       variant="primary"
@@ -221,7 +214,6 @@ const DestinationDetails = () => {
                     >
                       Edit Destination
                     </Button>
-                  
                   </div>
                 )}
 
@@ -241,40 +233,74 @@ const DestinationDetails = () => {
           </Col>
 
           {session && (
-  <Col md={8} lg={6}>
-    <h3>Reviews</h3>
-    {singleDestination.reviews && singleDestination.reviews.length > 0 ? (
-      singleDestination.reviews.map((review, index) => (
-        <Card key={index} className="mb-4 shadow-sm p-3 rounded">
-          <Card.Body>
-            <Card.Title className="fw-bold mb-2">
-              {review.user && review.user.name} {review.user && review.user.surname}
-            </Card.Title>
-            <Card.Subtitle className="mb-3 text-muted">
-              Rating: {review && review.rating} / 5
-            </Card.Subtitle>
-            <Card.Text style={{ whiteSpace: 'pre-wrap' }}>
-              {review && review.comment}
-            </Card.Text>
-          </Card.Body>
-        </Card>
-      ))
-    ) : (
-      <p>No reviews available.</p>
-    )}
-  </Col>
-)}
-
+            <Col md={8} lg={6}>
+              <h3>Reviews</h3>
+              {singleDestination.reviews && singleDestination.reviews.length > 0 ? (
+                singleDestination.reviews.map((review, index) => (
+                  <Card key={index} className="mb-4 shadow-sm p-3 rounded">
+                    <Card.Body>
+                      <Card.Title className="fw-bold mb-2">
+                        {review.user && review.user.name} {review.user && review.user.surname}
+                      </Card.Title>
+                      <Card.Subtitle className="mb-3 text-muted">
+                        Rating: {review && review.rating} / 5
+                      </Card.Subtitle>
+                      <Card.Text style={{ whiteSpace: "pre-wrap" }}>
+                        {review && review.comment}
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                ))
+              ) : (
+                <p>No reviews available.</p>
+              )}
+            </Col>
+          )}
         </Row>
 
-        {/* Modale per lasciare una recensione */}
+        {/* RIGA DESTINAZIONI CORRELATE */}
+        {correlatedDestinations.length > 0 && (
+  <>
+    <Row className="mt-5">
+      <Col>
+        <h4>Potrebbe Interessarti Anche:</h4>
+      </Col>
+    </Row>
+    <Row className="justify-content-center">
+      {correlatedDestinations.slice(0, 4).map((destination) => (
+        <Col key={destination._id} md={6} lg={3} className="mb-4 d-flex align-items-stretch">
+          <Card className="shadow-sm w-100 h-100 correlated-card">
+            <Card.Img
+              variant="top"
+              src={destination.img}
+              className="destination-img"
+            />
+            <Card.Body className="d-flex flex-column">
+              <Card.Title>{destination.name}</Card.Title>
+              <Button
+                variant="primary"
+                onClick={() => navigate(`/destinations/${destination._id}`)}
+                className="mt-auto"
+              >
+                View Details
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+      ))}
+    </Row>
+  </>
+)}
+
+
+        
+
         <CreateReviewModal
           showReviewModal={showReviewModal}
           handleCloseReviewModal={handleCloseReviewModal}
           destinationId={destinationId}
         />
 
-        {/* Modale per modificare la destinazione */}
         <DestinationsEditingModal
           show={showModal}
           handleClose={handleCloseModal}

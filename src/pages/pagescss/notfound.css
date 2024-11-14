@@ -1,0 +1,25 @@
+.not-found-page {
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  .not-found-title {
+    font-size: 6rem;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .not-found-description {
+    font-size: 1.25rem;
+    color: #555;
+  }
+  
+  .not-found-content {
+    padding: 50px;
+  }
+  
+  .not-found-page .btn {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+  }
+  

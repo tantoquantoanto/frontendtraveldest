@@ -1,5 +1,5 @@
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
-import { LucidePlane, LucideHome, LucideUser, LucideFacebook, LucideTwitter, LucideInstagram } from "lucide-react";
+import { LucidePlane, LucideHome, LucideUser, MenuIcon, LucideFacebook, LucideTwitter, LucideInstagram } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import DestinationsSearchInput from "./Destinations/DestinationsSearchInput";
 import useSession from "../../hooks/useSession";
@@ -50,15 +50,23 @@ const NavBar = ({ setShowApproved, onSearch, showApproved }) => {
             )}
 
             {!session && (
-              <Nav.Link as={Link} to="/login" className="text-dark">
-                Login
-              </Nav.Link>
+              
+              <NavDropdown title={<span><MenuIcon size={20} className="me-1" /> Menu </span>} id="menu-dropdown">
+              <NavDropdown.Item as={Link} to="/login" > Login </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/chisiamo" >Chi siamo</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/contatti"> Contatti</NavDropdown.Item>              
+            </NavDropdown>
             )}
 
-            {!isAdmin && (
+            {session && !isAdmin && (
+              <>
               <Nav.Link as={Link} to="/contatti" className="text-dark">
                 Contatti
               </Nav.Link>
+               <Nav.Link as={Link} to="/chisiamo" className="text-dark">
+               Chi Siamo
+             </Nav.Link>
+             </>
             )}
 
             {session && !isAdmin && (
