@@ -58,7 +58,7 @@
 
 @media (max-width: 768px) {
     .destinations-hero {
-        height: 40vh;
+        height: 30dvh;
     }
 
     .hero-title {
